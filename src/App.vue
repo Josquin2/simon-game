@@ -1,43 +1,45 @@
 <script>
+import red from "./sounds/1.mp3";
+import blue from "./sounds/2.mp3";
+import yellow from "./sounds/3.mp3";
+import green from "./sounds/4.mp3";
+
 export default {
   data() {
     return {
       colors: ["red", "green", "blue", "yellow"],
       sequence: [],
-      userSequence: [],
-      timing: 400,
+      timing: 300,
       currentSequence: [],
       text: "",
-      canclick: 0,
+      canclick: false,
     };
   },
   methods: {
     startButton() {
+      this.text = "";
       this.resetGame();
       setTimeout(() => {
         this.generateColor();
       }, 500);
     },
     async clicked(color) {
-      if (this.currentSequence.length == 0 || this.canclick > 0) {
+      if (this.currentSequence.length == 0 || this.canclick == true) {
         return;
       }
-      // console.log(this.currentSequence);
-      // console.log(this.currentSequence.length);
       await this.changeColor(color);
       if (color == this.currentSequence[0]) {
-        console.log(color);
         this.currentSequence.shift();
         if (this.currentSequence.length == 0) {
-          await this.generateColor();
+          await setTimeout(() => {
+            this.generateColor();
+          }, 300);
         }
       } else {
-        this.text = "You loose!";
-
-        this.resetGame();
-        setTimeout(() => (this.text = ""), 1500);
+        this.text = "Sorry, you lost!";
       }
     },
+
     changeDifficulty(e) {
       this.timing = e.target.value;
     },
@@ -54,18 +56,32 @@ export default {
     },
     changeColor(color) {
       return new Promise((resolve) => {
-        this.canclick = 1;
+        this.canclick = true;
         document.getElementById(color).className += " active";
+        switch (color) {
+          case "red":
+            new Audio(red).play();
+            break;
+          case "blue":
+            new Audio(blue).play();
+            break;
+          case "yellow":
+            new Audio(yellow).play();
+            break;
+          default:
+            new Audio(green).play();
+        }
+
         setTimeout(() => {
           document.getElementById(color).className = `circle ${color}`;
-          this.canclick = 0;
-          setTimeout(() => resolve(), 200);
+          this.canclick = false;
+          setTimeout(() => resolve(), 100);
         }, this.timing);
       });
     },
     resetGame() {
       this.sequence = [];
-      this.userSequence = [];
+
       this.currentSequence = [];
     },
   },
@@ -85,12 +101,12 @@ export default {
       <div>
         <button @click="startButton">Start</button>
       </div>
-      <p>Game options</p>
+      <p>Game options:</p>
       <div>
         <input
           type="radio"
           name="difficulty"
-          value="400"
+          value="300"
           @change="changeDifficulty"
           checked
         />
@@ -101,7 +117,7 @@ export default {
         <input
           type="radio"
           name="difficulty"
-          value="1000"
+          value="900"
           @change="changeDifficulty"
         />
         1000
@@ -111,7 +127,7 @@ export default {
         <input
           type="radio"
           name="difficulty"
-          value="1500"
+          value="1400"
           @change="changeDifficulty"
         />
         1500
@@ -153,6 +169,7 @@ export default {
   border: 0;
   border-radius: 10px;
   margin-right: 1vw;
+  font-size: 20px;
 }
 .menu p {
   font-size: 20px;
@@ -163,7 +180,6 @@ export default {
   height: 30vw;
   width: 30vw;
   border-radius: 50%;
-  background-color: aliceblue;
   display: block;
   cursor: pointer;
   position: absolute;
@@ -171,7 +187,7 @@ export default {
   transition: 0.2s;
 }
 .blue {
-  background-color: aqua;
+  background-color: dodgerblue;
   clip: rect(0vw, 15vw, 15vw, 0vw);
 }
 .red {
@@ -196,28 +212,24 @@ export default {
     margin-left: 8vw;
   }
   .blue {
-    background-color: aqua;
     clip: rect(0vw, 30vw, 30vw, 0vw);
   }
   .red {
-    background-color: red;
     clip: rect(0vw, 60vw, 30vw, 30vw);
   }
   .green {
-    background-color: green;
     clip: rect(30vw, 60vw, 60vw, 30vw);
   }
   .yellow {
-    background-color: yellow;
     clip: rect(30vw, 30vw, 60vw, 0vw);
   }
   .menu {
     margin-top: 40vh;
-    margin-left: 27vw;
+    margin-left: 25vw;
   }
   .menu button {
-    width: 16vw;
-    height: 4vh;
+    width: 24vw;
+    height: 6vh;
   }
 }
 </style>
