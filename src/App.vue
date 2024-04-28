@@ -37,6 +37,9 @@ export default {
         }
       } else {
         this.text = "Sorry, you lost!";
+        this.sequence = [];
+        this.currentSequence = [];
+        this.canclick = false;
       }
     },
 
