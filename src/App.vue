@@ -100,11 +100,12 @@ export default {
       <span id="yellow" @click="clicked('yellow')" class="circle yellow"></span>
     </div>
     <div class="menu">
-      <div class="level">Level {{ sequence.length }}</div>
+      <div class="level">Current level is {{ sequence.length }}</div>
       <div>
         <button @click="startButton">Start</button>
       </div>
       <p>Game options:</p>
+      <p style="margin: 1vh 0 1vh 0">Time between lights (in ms):</p>
       <div>
         <input
           type="radio"
@@ -145,30 +146,35 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  color: white;
+  background-color: rgb(59, 59, 59);
 }
-
 .container {
   margin: auto;
   width: 90vw;
   height: 100vh;
-  background-color: rgb(225, 225, 225);
+  background-color: rgb(59, 59, 59);
   padding: 5vw;
   border-radius: 20px;
 }
 .menu {
   display: flex;
   flex-direction: column;
-  margin-left: 34vw;
+  margin-left: 44vw;
+  margin-top: 7vw;
 }
 .menu .level {
   font-size: 30px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 .menu button {
   margin-top: 1vw;
   width: 6vw;
   height: 3vw;
-  background-color: white;
+  background-color: black;
   border: 0;
   border-radius: 10px;
   margin-right: 1vw;
